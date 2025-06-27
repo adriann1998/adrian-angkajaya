@@ -1,103 +1,275 @@
-import Image from "next/image";
+"use client"
+import React, { useState, useEffect } from 'react';
+import { Button } from '@/components/ui/button';
+import {
+  Menu,
+  X,
+} from 'lucide-react';
+import AboutMe from './components/about-me';
+import Hero from './components/hero';
+import Skills from './components/skills';
+import Projects from './components/projects';
+import Contact from './components/contact';
 
-export default function Home() {
+const sections: Section[] = ['Home', 'About', 'Skills', 'Projects', 'Contact']
+
+const Portfolio = () => {
+
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
+  const [stars, setStars] = useState<Star[]>([]);
+  const [particles, setParticles] = useState<Particle[]>([]);
+
+  const scrollToSection = (section: string) => {
+    document.getElementById(section)?.scrollIntoView({ behavior: 'smooth' });
+    setIsMenuOpen(false);
+  };
+
+  // Initialize stars and particles
+  useEffect(() => {
+    const generateStars = () => {
+      const newStars = [];
+      for (let i = 0; i < 150; i++) {
+        newStars.push({
+          id: i,
+          x: Math.random() * window.innerWidth,
+          y: Math.random() * window.innerHeight,
+          size: Math.random() * 2 + 0.5,
+          opacity: Math.random() * 0.8 + 0.2,
+          twinkleSpeed: Math.random() * 0.02 + 0.01,
+        });
+      }
+      setStars(newStars);
+    };
+
+    const generateParticles = () => {
+      const newParticles = [];
+      for (let i = 0; i < 50; i++) {
+        newParticles.push({
+          id: i,
+          x: Math.random() * window.innerWidth,
+          y: Math.random() * window.innerHeight,
+          vx: (Math.random() - 0.5) * 0.5,
+          vy: (Math.random() - 0.5) * 0.5,
+          size: Math.random() * 3 + 1,
+          opacity: Math.random() * 0.5 + 0.2,
+        });
+      }
+      setParticles(newParticles);
+    };
+
+    generateStars();
+    generateParticles();
+
+    const handleResize = () => {
+      generateStars();
+      generateParticles();
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  // Mouse tracking
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      setMousePosition({ x: e.clientX, y: e.clientY });
+    };
+
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, []);
+
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+    <div className="min-h-screen bg-black text-white">
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+      {/* Animated Background */}
+      <div className="fixed inset-0 z-0">
+        {/* Stars */}
+        {stars.map((star) => (
+          <div
+            key={star.id}
+            className="absolute rounded-full bg-white animate-pulse"
+            style={{
+              left: `${star.x}px`,
+              top: `${star.y}px`,
+              width: `${star.size}px`,
+              height: `${star.size}px`,
+              opacity: star.opacity,
+              animationDuration: `${2 + star.twinkleSpeed * 100}s`,
+            }}
+          />
+        ))}
+        
+        {/* Floating Particles */}
+        {particles.map((particle) => (
+          <div
+            key={particle.id}
+            className="absolute rounded-full bg-blue-400"
+            style={{
+              left: `${particle.x}px`,
+              top: `${particle.y}px`,
+              width: `${particle.size}px`,
+              height: `${particle.size}px`,
+              opacity: particle.opacity,
+              filter: 'blur(1px)',
+            }}
+          />
+        ))}
+
+        {/* Mouse Glow Effect */}
+        <div
+          className="absolute pointer-events-none"
+          style={{
+            left: mousePosition.x - 100,
+            top: mousePosition.y - 100,
+            width: '200px',
+            height: '200px',
+            background: 'radial-gradient(circle, rgba(59, 130, 246, 0.1) 0%, transparent 70%)',
+            borderRadius: '50%',
+          }}
+        />
+      </div>
+
+      {/* Navigation */}
+      <nav className="fixed top-0 w-full z-50 bg-gray-950/80 backdrop-blur-md border-b border-gray-800">
+        <div className="container mx-auto px-6 py-4">
+          <div className="flex justify-between items-center">
+            
+            {/* Desktop Navigation */}
+            <div className="hidden md:flex space-x-8">
+              {sections.map((item) => (
+                <button
+                  key={item}
+                  onClick={() => scrollToSection(item.toLowerCase())}
+                  className="hover:text-purple-400 transition-colors relative group cursor-pointer"
+                >
+                  {item}
+                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-purple-400 to-blue-400 group-hover:w-full transition-all duration-300"></span>
+                </button>
+              ))}
+            </div>
+
+            {/* Mobile Menu Button */}
+            <Button 
+              variant="ghost" 
+              size="icon"
+              className="md:hidden"
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+            >
+              {isMenuOpen ? <X /> : <Menu />}
+            </Button>
+          </div>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
+
+        {/* Mobile Menu */}
+        {isMenuOpen && (
+          <div className="md:hidden bg-gray-950/95 backdrop-blur-md">
+            <div className="px-6 py-4 space-y-4">
+              {['Home', 'About', 'Skills', 'Projects', 'Contact'].map((item) => (
+                <button
+                  key={item}
+                  onClick={() => scrollToSection(item.toLowerCase())}
+                  className="block w-full text-left hover:text-purple-400 transition-colors"
+                >
+                  {item}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+      </nav>
+
+      {/* Hero Section */}
+      <section id="home" className="min-h-screen flex items-center justify-center relative overflow-hidden">
+        <Hero scrollToSection={scrollToSection} />
+      </section>
+
+      {/* About Section */}
+      <section id="about" className="py-20">
+        <AboutMe />
+      </section>
+
+      {/* Skills Section */}
+      <section id="skills" className="py-20">
+        <Skills />
+      </section>
+
+      {/* Projects Section */}
+      <section id="projects" className="py-20">
+        <Projects />
+      </section>
+
+      {/* Contact Section */}
+      <section id="contact" className="py-20">
+        <Contact />
+      </section>
+
+      {/* Footer */}
+      <footer className="py-8 bg-gray-900 border-t border-gray-800">
+        <div className="container mx-auto px-6 text-center">
+          <p className="text-gray-400">
+            © {new Date().getFullYear()} Adrian Angkajaya. All rights reserved. Built with passion and modern web technologies.
+          </p>
+        </div>
       </footer>
+
+      <style jsx>{`
+        @keyframes fade-in-up {
+          from {
+            opacity: 0;
+            transform: translateY(30px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+        
+        .animate-fade-in-up {
+          animation: fade-in-up 0.8s ease-out forwards;
+        }
+        
+        .animation-delay-200 {
+          animation-delay: 0.2s;
+        }
+        
+        .animation-delay-400 {
+          animation-delay: 0.4s;
+        }
+        
+        .animation-delay-600 {
+          animation-delay: 0.6s;
+        }
+      `}</style>
     </div>
   );
+};
+
+type Section =
+  | 'Home'
+  | 'About'
+  | 'Skills'
+  | 'Projects'
+  | 'Contact'
+
+interface Star {
+  id: number;
+  x: number;
+  y: number;
+  size: number;
+  opacity: number;
+  twinkleSpeed: number;
 }
+
+interface Particle {
+  id: number
+  x: number
+  y: number
+  vx: number
+  vy: number
+  size: number
+  opacity: number
+}
+
+export default Portfolio;
