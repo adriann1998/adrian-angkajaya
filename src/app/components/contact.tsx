@@ -108,7 +108,7 @@ function Contact() {
               </div>
             </div>
 
-            <div className="flex space-x-4 pt-8">
+            <div className="flex space-x-4 pt-8" style={{ position: 'absolute' }}>
               <Button
                 variant="default"
                 size="icon"
