@@ -11,7 +11,7 @@ interface HeroProps {
 function Hero({
   scrollToSection,
 }: HeroProps) {
-  
+
   const [scrollY, setScrollY] = useState<number>(0);
   const [currentText, setCurrentText] = useState<string>('');
   const [textIndex, setTextIndex] = useState<number>(0);
@@ -37,8 +37,8 @@ function Hero({
         setIsDeleting(false);
         setTextIndex((prev) => (prev + 1) % texts.length);
       } else {
-        setCurrentText(prev => 
-          isDeleting 
+        setCurrentText(prev =>
+          isDeleting
             ? prev.slice(0, -1)
             : currentFullText.slice(0, prev.length + 1)
         );
@@ -64,6 +64,7 @@ function Hero({
       document.body.removeChild(a);
       URL.revokeObjectURL(downloadUrl);
     } catch (error) {
+      console.log(error)
       // setStatus(`❌ Error downloading ${filename}: ${error.message}`);
     } finally {
       setLoading(false);
@@ -72,7 +73,7 @@ function Hero({
 
   return (
     <div>
-      <div 
+      <div
         className="absolute inset-0 opacity-30"
         style={{ transform: `translateY(${scrollY * 0.5}px)` }}
       >
@@ -89,7 +90,7 @@ function Hero({
             </span>
           </h1>
         </div>
-        
+
         <div className="animate-fade-in-up animation-delay-200">
           <div className="text-2xl md:text-4xl mb-8 h-16 flex items-center justify-center">
             <span className="border-r-2 border-purple-400 pr-1 animate-pulse">
@@ -100,14 +101,14 @@ function Hero({
 
         <div className="animate-fade-in-up animation-delay-400">
           <p className="text-xl text-gray-300 mb-12 max-w-2xl mx-auto leading-relaxed">
-            Crafting exceptional digital experiences with modern technologies. 
+            Crafting exceptional digital experiences with modern technologies.
             Specializing in React, Node.js, and scalable backend solutions.
           </p>
         </div>
 
         <div className="animate-fade-in-up animation-delay-600">
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button 
+            <Button
               className="px-8 py-6 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-lg font-semibold transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-purple-500/25"
               onClick={() => scrollToSection('projects')}
             >
@@ -115,7 +116,7 @@ function Hero({
             </Button>
             <Button
               onClick={fetchAndDownloadResume}
-              variant="outline" 
+              variant="outline"
               className="px-8 py-6 text-lg font-semibold text-black border-gray-600 hover:text-white hover:bg-gray-800/50 backdrop-blur-sm transition-all duration-300"
             >
               Download CV{' '}<Download className="w-8 h-8 text-black" />

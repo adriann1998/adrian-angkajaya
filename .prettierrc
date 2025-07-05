@@ -1,0 +1,10 @@
+{
+  "singleQuote": true,
+  "semi": true,
+  "bracketSpacing": true,
+  "bracketSameLine": false,
+  "arrowParens": "avoid",
+  "embeddedLanguageFormatting": "auto",
+  "printWidth": 200,
+  "singleAttributePerLine": true
+}

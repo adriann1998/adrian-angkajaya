@@ -100,7 +100,7 @@ const Portfolio = () => {
             }}
           />
         ))}
-        
+
         {/* Floating Particles */}
         {particles.map((particle) => (
           <div
@@ -135,14 +135,14 @@ const Portfolio = () => {
       <nav className="fixed top-0 w-full z-50 bg-gray-950/80 backdrop-blur-md border-b border-gray-800">
         <div className="container mx-auto px-6 py-4">
           <div className="flex justify-between items-center">
-            
+
             {/* Desktop Navigation */}
             <div className="hidden md:flex space-x-8">
               {sections.map((item) => (
                 <button
                   key={item}
                   onClick={() => scrollToSection(item.toLowerCase())}
-                  className="hover:text-purple-400 transition-colors relative group cursor-pointer"
+                  className="hover:text-purple-400 transition-colors text-xl relative group cursor-pointer"
                 >
                   {item}
                   <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-purple-400 to-blue-400 group-hover:w-full transition-all duration-300"></span>
@@ -151,8 +151,8 @@ const Portfolio = () => {
             </div>
 
             {/* Mobile Menu Button */}
-            <Button 
-              variant="ghost" 
+            <Button
+              variant="ghost"
               size="icon"
               className="md:hidden"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
