@@ -15,6 +15,7 @@ import {
   MessageCircle,
   Smartphone,
   CalendarCheck,
+  ShoppingCart,
 } from 'lucide-react';
 
 interface Project {
@@ -40,13 +41,13 @@ const projects: Project[] = [
     inProgress: false,
   },
   {
-    icon: <TrendingUp className="w-12 h-12" />,
-    title: "Analytics Dashboard",
-    demoLink: "https://www.taxibox.com.au/booking/",
-    description: "Real-time analytics dashboard built with Next.js and D3.js. Features interactive charts, data visualization, and exportable reports.",
-    tech: ["TBD"],
+    icon: <ShoppingCart className="w-12 h-12" />,
+    title: "Multi-vendor E-commerce",
+    demoLink: "https://flickit-adrians-projects-ab8f1dd6.vercel.app/",
+    description: "A modern multi-vendor e-commerce platform featuring vendor dashboard for seamless store management, integrated customer rewards system, and user-friendly interface designed for effortless shopping and selling experiences.",
+    tech: ["Next.js", "React", "Node.js", "Express", "MySQL", "Stripe"],
     gradient: "from-green-600 to-teal-600",
-    inProgress: true,
+    inProgress: false,
   },
   {
     icon: <MessageCircle className="w-12 h-12" />,
